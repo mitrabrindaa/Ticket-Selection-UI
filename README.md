@@ -68,7 +68,7 @@ to ensure correctness, clarity, and alignment with assignment requirements.
 ---
 
 ## 📁 Folder Structure
-
+```
 src/
 ├─ assets/
 ├─ components/
@@ -80,7 +80,7 @@ src/
 ├─ App.jsx
 ├─ main.jsx
 └─ index.css
-
+```
 
 ---
 
