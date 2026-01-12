@@ -9,22 +9,38 @@ function Tickets() {
   const [ticketCounts, setTicketCounts] = useState({});
 
   useEffect(() => {
-    fetch("/api/sections/availability")
-      .then((res) => res.json())
-      .then((data) => {
-        const sectionsArray = data.sections || [];
-        setSections(sectionsArray);
-        const initialCounts = {};
-        sectionsArray.forEach((section) => {
-          initialCounts[section._id] = 0;
-        });
-        setTicketCounts(initialCounts);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch sections:", err);
-        setLoading(false);
+    const initFromData = (data) => {
+      const sectionsArray = data.sections || [];
+      setSections(sectionsArray);
+      const initialCounts = {};
+      sectionsArray.forEach((section) => {
+        initialCounts[section._id] = 0;
       });
+      setTicketCounts(initialCounts);
+    };
+
+    const fetchJson = async (url) => {
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      return res.json();
+    };
+
+    (async () => {
+      try {
+        const data = await fetchJson("/api/sections/availability");
+        initFromData(data);
+      } catch (err) {
+        console.error("Failed to fetch /api/sections/availability:", err);
+        try {
+          const fallback = await fetchJson("/mock-sections.json");
+          initFromData(fallback);
+        } catch (fallbackErr) {
+          console.error("Failed to fetch fallback /mock-sections.json:", fallbackErr);
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const handleAdd = (sectionId) => {
