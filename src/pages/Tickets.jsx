@@ -27,7 +27,7 @@ function Tickets() {
 
     (async () => {
       try {
-        const data = await fetchJson("/api/sections/availability");
+        const data = await fetchJson("https://concertsapi.onlybees.in/api/sections/availability");
         initFromData(data);
       } catch (err) {
         console.error("Failed to fetch /api/sections/availability:", err);
