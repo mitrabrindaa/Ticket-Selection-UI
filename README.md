@@ -1,16 +1,91 @@
-# React + Vite
+# OnlyBees Ticket Selection UI (Clone)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based clone of the OnlyBees event flow for  
+**Mohombi Live in Shillong**, built as part of a frontend assignment.
 
-Currently, two official plugins are available:
+It replicates the complete flow:
+- Event page (poster & details)
+- Ticket selection page
+- Checkout summary (console output)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Live Demo
+🔗 https://<your-vercel-link-here>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧩 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Event landing page with poster and details
+- Ticket selection with real-time quantity control
+- Sold-out and availability handling
+- Bottom checkout bar with derived totals
+- Separate routes for Event → Tickets → Checkout
+- Responsive, clean UI with custom CSS
+- Checkout action logs final selected tickets to console
+
+---
+
+## 🛠️ Tech Stack
+
+- React (Vite)
+- React Router DOM
+- Vanilla CSS
+- Fetch API
+
+---
+
+## 📡 API Used
+
+https://concertsapi.onlybees.in/api/sections/availability
+
+
+---
+
+## 🧠 Core Concepts Demonstrated
+
+- State lifting and prop drilling
+- Controlled components
+- Derived state (total quantity & price)
+- Conditional rendering
+- Component-based architecture
+- Clean folder structure and naming
+- Basic routing with React Router
+
+---
+
+## 🤖 AI Usage
+
+AI tools were used as a development assistant to:
+- Scaffold initial component and routing structure
+- Debug state handling and rendering issues
+- Refine UI interactions and CSS styling
+
+All AI-generated suggestions were reviewed, adapted, and integrated manually
+to ensure correctness, clarity, and alignment with assignment requirements.
+
+---
+
+## 📁 Folder Structure
+
+src/
+├─ assets/
+├─ components/
+│ └─ SectionCard.jsx
+├─ pages/
+│ ├─ Event.jsx
+│ ├─ Tickets.jsx
+│ └─ Checkout.jsx
+├─ App.jsx
+├─ main.jsx
+└─ index.css
+
+
+---
+
+## ▶️ Running Locally
+
+```bash
+npm install
+npm run dev
