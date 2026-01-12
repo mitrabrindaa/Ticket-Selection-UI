@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   // Minimal mock payload to match the UI expectations.
   res.status(200).json({
     sections: [
@@ -7,4 +7,4 @@ export default function handler(req, res) {
       { _id: "vvip_lounge", name: "VVIP LOUNGE", price: 2999, availableQuantity: 8 }
     ]
   });
-}
+};
