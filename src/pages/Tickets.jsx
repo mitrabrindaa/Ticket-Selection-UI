@@ -14,6 +14,8 @@ function Tickets() {
   const [loading, setLoading] = useState(true);
   const [ticketCounts, setTicketCounts] = useState({});
 
+  const sectionsToRender = sections.length > 0 ? sections : FALLBACK_SECTIONS;
+
   useEffect(() => {
     let cancelled = false;
 
@@ -61,19 +63,19 @@ function Tickets() {
   const handleAdd = (sectionId) => {
     setTicketCounts((prev) => ({
       ...prev,
-      [sectionId]: prev[sectionId] + 1,
+      [sectionId]: (prev[sectionId] || 0) + 1,
     }));
   };
 
   const handleRemove = (sectionId) => {
     setTicketCounts((prev) => ({
       ...prev,
-      [sectionId]: Math.max(0, prev[sectionId] - 1),
+      [sectionId]: Math.max(0, (prev[sectionId] || 0) - 1),
     }));
   };
 
   const totalQuantity = Object.values(ticketCounts).reduce((sum, count) => sum + count, 0);
-  const totalPrice = sections.reduce((sum, section) => {
+  const totalPrice = sectionsToRender.reduce((sum, section) => {
     return sum + section.price * (ticketCounts[section._id] || 0);
   }, 0);
 
@@ -119,23 +121,17 @@ function Tickets() {
         <div className="tickets-main-layout">
         {/* LEFT SIDE - Tickets */}
         <div className="tickets-left">
-          {sections.length === 0 ? (
-            <p style={{ color: '#999', textAlign: 'center', padding: '40px' }}>
-              No tickets available or failed to load.
-            </p>
-          ) : (
-            sections.map((section) => (
-              <SectionCard
-                key={section._id}
-                name={section.name}
-                price={section.price}
-                count={ticketCounts[section._id] || 0}
-                available={section.availableQuantity}
-                onAdd={() => handleAdd(section._id)}
-                onRemove={() => handleRemove(section._id)}
-              />
-            ))
-          )}
+          {sectionsToRender.map((section) => (
+            <SectionCard
+              key={section._id}
+              name={section.name}
+              price={section.price}
+              count={ticketCounts[section._id] || 0}
+              available={section.availableQuantity}
+              onAdd={() => handleAdd(section._id)}
+              onRemove={() => handleRemove(section._id)}
+            />
+          ))}
         </div>
 
         {/* RIGHT SIDE - Venue Layout */}
