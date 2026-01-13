@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SectionCard from "../components/SectionCard";
 
+const FALLBACK_SECTIONS = [
+  { _id: "ga", name: "GA", price: 799, availableQuantity: 120 },
+  { _id: "ga_vip", name: "GA VIP", price: 1299, availableQuantity: 24 },
+  { _id: "vvip_lounge", name: "VVIP LOUNGE", price: 2999, availableQuantity: 8 },
+];
+
 function Tickets() {
   const navigate = useNavigate();
   const [sections, setSections] = useState([]);
@@ -9,8 +15,11 @@ function Tickets() {
   const [ticketCounts, setTicketCounts] = useState({});
 
   useEffect(() => {
+    let cancelled = false;
+
     const initFromData = (data) => {
       const sectionsArray = data.sections || [];
+      if (cancelled) return;
       setSections(sectionsArray);
       const initialCounts = {};
       sectionsArray.forEach((section) => {
@@ -26,6 +35,10 @@ function Tickets() {
     };
 
     (async () => {
+      // Always show usable data immediately (works on Vercel even if API/rewrite is misconfigured).
+      initFromData({ sections: FALLBACK_SECTIONS });
+      setLoading(false);
+
       try {
         const data = await fetchJson("/api/sections/availability");
         initFromData(data);
@@ -37,10 +50,12 @@ function Tickets() {
         } catch (fallbackErr) {
           console.error("Failed to fetch fallback /mock-sections.json:", fallbackErr);
         }
-      } finally {
-        setLoading(false);
       }
     })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const handleAdd = (sectionId) => {
